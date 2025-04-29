@@ -1,0 +1,210 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+<style>
+    .profile-container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 20px;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+    
+    .profile-header {
+      color: #2c3e50;
+      margin-bottom: 30px;
+      text-align: center;
+      position: relative;
+    }
+    
+    .profile-header h1 {
+      font-weight: 600;
+      position: relative;
+      display: inline-block;
+    }
+    
+    .profile-header h1::after {
+      content: '';
+      position: absolute;
+      width: 50%;
+      height: 3px;
+      background: linear-gradient(to right, #3498db, #9b59b6);
+      bottom: -10px;
+      left: 25%;
+      border-radius: 3px;
+    }
+    
+    .profile-card {
+      border: none;
+      border-radius: 15px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+      overflow: hidden;
+      transition: transform 0.3s ease;
+    }
+    
+    .profile-card:hover {
+      transform: translateY(-5px);
+    }
+    
+    .card-header {
+      background: linear-gradient(135deg, #3498db, #9b59b6);
+      color: white;
+      border-bottom: none;
+      padding: 20px;
+    }
+    
+    .card-header h3 {
+      margin: 0;
+      font-weight: 600;
+    }
+    
+    .card-body {
+      padding: 30px;
+    }
+    
+    .profile-img {
+      width: 150px;
+      height: 150px;
+      object-fit: cover;
+      border: 5px solid white;
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+      margin-bottom: 20px;
+      transition: all 0.3s ease;
+    }
+    
+    .profile-img:hover {
+      transform: scale(1.05);
+    }
+    
+    .profile-details dl {
+      margin-top: 20px;
+    }
+    
+    .profile-details dt {
+      font-weight: 600;
+      color: #7f8c8d;
+      padding: 8px 0;
+    }
+    
+    .profile-details dd {
+      padding: 8px 0;
+      border-bottom: 1px solid #ecf0f1;
+      color: #34495e;
+    }
+    
+    .profile-details .row:last-child dd {
+      border-bottom: none;
+    }
+    
+    .edit-btn {
+      background: linear-gradient(135deg, #3498db, #9b59b6);
+      border: none;
+      padding: 10px 25px;
+      border-radius: 50px;
+      font-weight: 600;
+      letter-spacing: 0.5px;
+      margin-top: 20px;
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 15px rgba(52, 152, 219, 0.3);
+    }
+    
+    .edit-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(52, 152, 219, 0.4);
+    }
+    
+    hr {
+      border: 0;
+      height: 1px;
+      background-image: linear-gradient(to right, rgba(0, 0, 0, 0), rgba(52, 152, 219, 0.75), rgba(0, 0, 0, 0));
+      margin: 25px 0;
+    }
+    
+    @media (max-width: 768px) {
+      .profile-img {
+        width: 120px;
+        height: 120px;
+      }
+      
+      .card-body {
+        padding: 20px;
+      }
+    }
+  </style>
+  
+  <div class="profile-container">
+    {% if user.is_authenticated %}
+    
+      <div class="profile-header">
+        <h1>Profile: {{ user.first_name }} {{ user.last_name }}</h1>
+      </div>
+  
+      <div class="row justify-content-center">
+        <div class="col-md-8 col-lg-6">
+          <div class="card profile-card">
+            <div class="card-header text-center">
+              <h3>User Profile</h3>
+            </div>
+            <div class="card-body">
+              <div class="text-center">
+                {% if user.profile_picture %}
+                  <img src="{{ user.profile_picture.url }}" alt="Profile Picture" class="profile-img">
+                {% else %}
+                  <img src="{% static 'assets/images/default.jpg' %}" alt="Default Profile Picture" class="profile-img">
+                {% endif %}
+              </div>
+  
+              <hr>
+  
+              <div class="profile-details">
+                <dl class="row">
+                  <dt class="col-sm-4">First Name</dt>
+                  <dd class="col-sm-8">{{ user.first_name }}</dd>
+  
+                  <dt class="col-sm-4">Last Name</dt>
+                  <dd class="col-sm-8">{{ user.last_name }}</dd>
+  
+                  <dt class="col-sm-4">Email</dt>
+                  <dd class="col-sm-8">{{ user.email }}</dd>
+  
+                  <dt class="col-sm-4">Enrollment Number</dt>
+                  <dd class="col-sm-8">{{ user.enrollment_number }}</dd>
+  
+                  <dt class="col-sm-4">Phone</dt>
+                  <dd class="col-sm-8">{{ user.phone }}</dd>
+  
+                  <dt class="col-sm-4">Course</dt>
+                  <dd class="col-sm-8">{{ user.course }}</dd>
+  
+                  <dt class="col-sm-4">Branch</dt>
+                  <dd class="col-sm-8">{{ user.branch }}</dd>
+  
+                  <dt class="col-sm-4">Valid Up</dt>
+                  <dd class="col-sm-8">{{ user.valid }}</dd>
+  
+                  <dt class="col-sm-4">Registration</dt>
+                  <dd class="col-sm-8">{{ user.registration }}</dd>
+  
+                  <dt class="col-sm-4">Year</dt>
+                  <dd class="col-sm-8">{{ user.year }}</dd>
+                </dl>
+              </div>
+  
+              {% if request.user.is_staff %}
+                <div class="text-center">
+                  <a href="{% url 'edit_profile' %}" class="btn edit-btn">Edit Profile</a>
+                </div>
+              {% endif %}
+            </div>
+          </div>
+        </div>
+      </div>
+
+    {% else %}
+      <div class="text-center mt-5">
+        <h3 class="text-danger">You must be logged in to view this page.</h3>
+        <a href="{% url 'login' %}" class="btn btn-primary mt-3">Login</a>
+      </div>
+    {% endif %}
+  </div>
+  {% endblock %}
