@@ -10,6 +10,7 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/5.0/ref/settings/
 """
 import os
+import dj_database_url
 from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -21,11 +22,12 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = 'django-insecure-r83@jq-*98+5&ca3ivpy^3m=f&gk(6jtfvvf7bkq)02l0bowhd'
-
+# SECRET_KEY = os.environ.get("SECRET_KEY")
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+# DEBUG = True
+DEBUG = os.environ.get("DEBUG","False").lower()=="true"
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = os.environ.get("ALLOW_HOSTS","localhost").split(" ")
 
 
 # Application definition
@@ -82,14 +84,26 @@ WSGI_APPLICATION = 'college.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/5.0/ref/settings/#databases
 
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.sqlite3',
+#         'NAME': BASE_DIR / 'db.sqlite3',
+#     }
+# }
+
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
-    }
+   'default': {
+       'ENGINE': 'django.db.backends.postgresql',
+       'NAME': 'mydatapostgress',
+       'USER': 'mydatapostgress_user',
+       'PASSWORD': 'ZNrOjJX7u2Et8Lrdg07ZFrzcZUgcvj7l',
+       'HOST': 'dpg-d095dnre5dus73fan940-a.oregon-postgres.render.com',
+       'PORT': '5432',
+   }
 }
 
 
+database_url =os.environ.get("DATABASES")
 # Password validation
 # https://docs.djangoproject.com/en/5.0/ref/settings/#auth-password-validators
 
@@ -131,6 +145,6 @@ STATIC_URL = 'static/'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 STATICFILES_DIRS = [
-   os.path.join(BASE_DIR, 'static')
+   os.path.join(BASE_DIR, 'collegeApp', 'static')
 ]
-STATIC_ROOT = os.path.join(BASE_DIR, '')
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
