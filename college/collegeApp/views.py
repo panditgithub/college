@@ -113,7 +113,7 @@ def edit_profile(request):
 def user_profile(request):
     user = request.user
     form = UserProfileForm(instance=user)  # Populate form with current user data
-    print(form)
+    # print(form)
     
     return render(request, 'user_profile.html', {'form': form, 'user': user})
 
