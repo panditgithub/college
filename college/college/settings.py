@@ -26,7 +26,7 @@ SECRET_KEY = 'django-insecure-r83@jq-*98+5&ca3ivpy^3m=f&gk(6jtfvvf7bkq)02l0bowhd
 # SECURITY WARNING: don't run with debug turned on in production!
 # DEBUG = True
 DEBUG = os.environ.get("DEBUG","False").lower()=="true"
-ALLOWED_HOSTS = os.environ.get("ALLOW_HOSTS", "college-qqhu.onrender.com,127.0.0.1,localhost").split(",")
+ALLOWED_HOSTS = os.environ.get("ALLOW_HOSTS", "college-qqhu.onrender.com,127.0.0.1,localhost,aiiedu.online").split(",")
 # ALLOWED_HOSTS = ['*']
 print("DEBUG is", DEBUG)
 print("ALLOWED_HOSTS is", ALLOWED_HOSTS)
